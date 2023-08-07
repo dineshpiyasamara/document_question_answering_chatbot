@@ -4,7 +4,14 @@ models/*.bin
 # vecorstore path
 vectorstore/db_faiss
 
+# data path
+data/
+
+# experiments path
 experiment
+
+# configurations
+config
 
 # PPT decks
 *.pptx
@@ -162,3 +169,5 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+config/config.yml
+config/config.yml
