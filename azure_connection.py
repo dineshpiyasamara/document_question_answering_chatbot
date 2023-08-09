@@ -3,6 +3,7 @@ import os
 from urllib.parse import urlparse
 import box
 import yaml
+from src.logger import logging
 
 with open('config/config.yml', 'r', encoding='utf8') as ymlfile:
     cfg = box.Box(yaml.safe_load(ymlfile))
@@ -12,7 +13,7 @@ blob_service_client = BlobServiceClient(account_url=f"https://{cfg.AZURE_ACCOUNT
 def download_files(chat_id, file_url_list):
     if not os.path.exists(f'{cfg.DATA_PATH}{chat_id}'):
         os.makedirs(f'{cfg.DATA_PATH}{chat_id}')
-        print(f"Folder '{f'{cfg.DATA_PATH}{chat_id}'}' created.")
+        logging.info(f"Folder '{f'{cfg.DATA_PATH}{chat_id}'}' created.")
         for file_url in file_url_list:
 
             parsed_url = urlparse(file_url)
@@ -25,8 +26,9 @@ def download_files(chat_id, file_url_list):
             with open(f"{cfg.DATA_PATH}{chat_id}/{file_name}", "wb") as f:
                 download_stream = blob_client.download_blob()
                 f.write(download_stream.readall())
+                logging.info(f'Download file: {f}')
     else:
-        print(f"Folder '{f'{cfg.DATA_PATH}{chat_id}'}' already exists.")
+        logging.info(f"Folder '{f'{cfg.DATA_PATH}{chat_id}'}' already exists.")
 
 
 
